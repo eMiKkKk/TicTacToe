@@ -15,6 +15,9 @@
   width: 140px;
   height: 140px;
   border: 1px solid black;
+  font-size: 700%;
+  padding: 0 auto;
+  text-align: center;
 }
 
 .button_newgame {
