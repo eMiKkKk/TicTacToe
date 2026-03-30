@@ -12,17 +12,76 @@ function startGame() {
 
 startGame();
 
+
+const winCombos = [
+  [1,2,3],
+  [4,5,6],
+  [7,8,9],
+  [1,4,7],
+  [2,5,8],
+  [3,6,9],
+  [1,5,9],
+  [3,5,7]
+];
+
+let gameProcess = {
+  firstPlayer: [],
+  secondPlayer: []
+}
+
+
+function pushTurn(e) {
+
+  if (currentPlayerIndex === 0) {
+    gameProcess.firstPlayer.push(+e.target.dataset.index);
+  }
+  else {
+  gameProcess.secondPlayer.push(+e.target.dataset.index);
+  }
+  console.log(gameProcess.firstPlayer, gameProcess.secondPlayer);
+}
+
+
+function checkWin(obj) {
+
+  for (let key in winCombos) {
+
+  const intersectionX = winCombos[key].filter(item => obj.firstPlayer.includes(item));
+  const intersectionO = winCombos[key].filter(item => obj.secondPlayer.includes(item));
+
+    if (intersectionX.length === 3 || intersectionO.length === 3) {
+      endGame(gameProcess)
+    }
+  }
+};
+
+  function endGame(obj) {
+    console.log('ПОБЕДА НАХУЙ!');
+    alert(`Игрок ${players[currentPlayerIndex]} Победил!`);
+    board.dataset.finished = 'true';
+    obj.firstPlayer = []
+    obj.secondPlayer = []
+  }
+
+
 board.addEventListener('click', (evt) => {
 
-if (evt.target.dataset.blocked == 'true') {
-  alert('Уже сходили сюда, кретин')
-}
-else {
-  evt.target.textContent = players[currentPlayerIndex];
-  switchPlayer();
-}
-evt.target.dataset.blocked = 'true';
-console.log(evt.target.textContent);
+  if (board.dataset.finished == 'true') {
+    alert('Игра окончена, дружок-пирожок.')
+  }
+
+  else if (evt.target.dataset.blocked == 'true') {
+    alert('Уже сходили сюда, кретин')
+  }
+  else {
+    evt.target.textContent = players[currentPlayerIndex];
+    pushTurn(evt);
+    checkWin(gameProcess);
+    switchPlayer();
+  }
+  evt.target.dataset.blocked = 'true';
+  console.log(evt.target.textContent);
+  console.log(evt.target.dataset.index);
 
 
 });
@@ -39,3 +98,4 @@ function switchPlayer() {
 
   movePlayer.textContent = `Ход игрока: ${players[currentPlayerIndex]}`;
 }
+
