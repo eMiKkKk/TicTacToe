@@ -52,9 +52,11 @@ function checkWin(obj) {
   const intersectionO = winCombos[key].filter(item => obj.secondPlayer.includes(item));
 
     if (intersectionX.length === 3 || intersectionO.length === 3) {
-      endGame(gameProcess)
+      endGame(gameProcess);
+      return;
     }
   }
+  chekDraw();
 };
 
   function endGame(obj) {
@@ -80,7 +82,6 @@ board.addEventListener('click', (evt) => {
     pushTurn(evt);
     moves++;
     checkWin(gameProcess);
-    chekDraw();
     switchPlayer();
   }
   evt.target.dataset.blocked = 'true';
@@ -121,8 +122,8 @@ function clearBoard() {
 }
 
 function chekDraw() {
-  if (moves === 9 && !checkWin(gameProcess)) {
+  if (moves === 9) {
     alert('Игроки идут отмечать ничью!');
     board.dataset.finished = 'true';
-  }
+    }
 }
