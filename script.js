@@ -4,6 +4,7 @@ const newGameButton = document.querySelector('.button_newgame');
 let movePlayer = document.querySelector('.move');
 let players = ['X', '0'];
 let currentPlayerIndex;
+let moves = 0;
 
 function startGame() {
   currentPlayerIndex = Math.floor(Math.random() * players.length);
@@ -39,6 +40,7 @@ function pushTurn(e) {
   gameProcess.secondPlayer.push(+e.target.dataset.index);
   }
   console.log(gameProcess.firstPlayer, gameProcess.secondPlayer);
+
 }
 
 
@@ -76,7 +78,9 @@ board.addEventListener('click', (evt) => {
   else {
     evt.target.textContent = players[currentPlayerIndex];
     pushTurn(evt);
+    moves++;
     checkWin(gameProcess);
+    chekDraw();
     switchPlayer();
   }
   evt.target.dataset.blocked = 'true';
@@ -112,4 +116,13 @@ function clearBoard() {
   });
 
   board.dataset.finished = 'false';
+
+  moves = 0;
+}
+
+function chekDraw() {
+  if (moves === 9 && !checkWin(gameProcess)) {
+    alert('Игроки идут отмечать ничью!');
+    board.dataset.finished = 'true';
+  }
 }
