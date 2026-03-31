@@ -1,5 +1,5 @@
 const board = document.querySelector('.playtable');
-const cell = document.querySelector('.playcell');
+const cell = document.querySelectorAll('.playcell');
 const newGameButton = document.querySelector('.button_newgame');
 let movePlayer = document.querySelector('.move');
 let players = ['X', '0'];
@@ -86,7 +86,10 @@ board.addEventListener('click', (evt) => {
 
 });
 
-newGameButton.addEventListener('click', () => console.clear())
+newGameButton.addEventListener('click', () => {
+  startGame();
+  clearBoard();
+})
 
 function switchPlayer() {
 
@@ -99,3 +102,14 @@ function switchPlayer() {
   movePlayer.textContent = `Ход игрока: ${players[currentPlayerIndex]}`;
 }
 
+function clearBoard() {
+  gameProcess.firstPlayer.length = 0;
+  gameProcess.secondPlayer.length = 0;
+
+  cell.forEach(element => {
+    element.textContent = '';
+    element.dataset.blocked = 'false';
+  });
+
+  board.dataset.finished = 'false';
+}
