@@ -59,12 +59,12 @@ function checkWin(obj) {
   chekDraw();
 };
 
+
   function endGame(obj) {
     console.log('ПОБЕДА НАХУЙ!');
-    alert(`Игрок ${players[currentPlayerIndex]} Победил!`);
+    movePlayer.textContent = `Игрок ${players[currentPlayerIndex]} Победил!`;
     board.dataset.finished = 'true';
-    obj.firstPlayer = []
-    obj.secondPlayer = []
+    board.classList.add('finished');
   }
 
 
@@ -82,9 +82,11 @@ board.addEventListener('click', (evt) => {
     pushTurn(evt);
     moves++;
     checkWin(gameProcess);
-    switchPlayer();
+    if (board.dataset.finished !== 'true') { switchPlayer();}
+
   }
   evt.target.dataset.blocked = 'true';
+  evt.target.classList.add('blocked');
   console.log(evt.target.textContent);
   console.log(evt.target.dataset.index);
 
@@ -114,6 +116,8 @@ function clearBoard() {
   cell.forEach(element => {
     element.textContent = '';
     element.dataset.blocked = 'false';
+    element.classList.remove('blocked');
+    board.classList.remove('finished');
   });
 
   board.dataset.finished = 'false';
@@ -123,7 +127,8 @@ function clearBoard() {
 
 function chekDraw() {
   if (moves === 9) {
-    alert('Игроки идут отмечать ничью!');
+
+    movePlayer.textContent = `Все игроки идут отмечать ничью!`;
     board.dataset.finished = 'true';
     }
 }
